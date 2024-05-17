@@ -60,7 +60,6 @@ async function router(data) {
             await function_test_menu(uid,false);
             break;
         default:
-            await start_menu(uid);
             break;
     }
 }
@@ -88,7 +87,6 @@ async function callBackRouter(data, action, opts) {
             await function_test_menu(uid,false);
             break;
         default:
-            await start_menu(uid);
             break;
     }
     // bot.deleteMessage(opts.chat_id, opts.message_id);
@@ -99,6 +97,15 @@ async function start_menu(uid)
     return await bot.sendMessage(uid, `🚧 Welcome to tonspay status checking bot 🚧
 
 This bot can help you check the \`ProductionEVN\` & \`TestENV\` of Tonspay service in realtime.
+
+You can \`@me command\` to see the status .
+
+Commands support :
+
+\`ping_pro\`
+\`function_test_pro\`
+\`ping_test\`
+\`function_test_test\`
 
     `, {
         parse_mode: 'MarkDown',
