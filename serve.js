@@ -253,6 +253,7 @@ async function loop()
             {
                 await function_test_menu(alerts[i],true);
             }
+            break;
         }
         await sleep(60000)
     }
