@@ -5,6 +5,8 @@ const bot = new TelegramBot(token, { polling: true });
 const api = require("./utils/apis")
 
 const bot_tittle = '@Tonspay_status_bot '
+
+var listener = {}
 bot.on('message', async(msg) => {
     try {
         if (msg["reply_to_message"]) {
@@ -36,6 +38,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
 
 async function router(data) {
     const uid = data.chat.id;
+    listener[uid]=0;
     const req = data.text
     switch (req) {
         case "/start": case bot_tittle+"start":
@@ -218,3 +221,34 @@ Update Time : \`${ret_data.check_time}\`
         })
     });
 }
+
+function sleep (ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+}
+
+async function loop()
+{
+    console.log("🚧 Loop listener start up")
+    while(true)
+    {
+        var ping_pro = false
+        var function_pro = false
+        try{
+            ping_pro = await api.ping(true);
+            function_pro = await api.getMethod(true);
+        }catch(e){}
+        if(ping_pro && ping_pro.code == 200 && ping_pro.data &&function_pro && function_pro.code == 200 && function_pro.data)
+        {}else{
+            const alerts = Object.keys(listener)
+            for(var i = 0; i < alerts.length ; i++)
+            {
+                await function_test_menu(alerts[i],true);
+            }
+        }
+        await sleep(60000)
+    }
+}
+
+loop()
